@@ -10,30 +10,45 @@ import { AiOutlinePlusCircle } from 'react-icons/ai'
 import { HiOutlineMinusCircle } from 'react-icons/hi'
 import { getSingleProductQuery } from "../../../../sanity/lib/query";
 
+import { useAppSelector, useAppDispatch } from "@/store/hooks/counterHooks";
+import { counterActions } from "@/store/slice/counterSlice";
+import { toast } from "react-hot-toast";
+
 const ProductDetail = ({ params }: { params: { slug: string } }) => {
 
-  const [counter, setCounter] = useState<number>(1);
+  const counterValue = useAppSelector((state) => state.counterSlice.value);
+  const dispatch = useAppDispatch();
+
+  const increment = () => {
+    dispatch(counterActions.increment())
+  };
+  const decrement = () => {
+    counterValue > 1 ? dispatch(counterActions.decrement()) : toast.error("Quantity can't be negative")
+  };
+
+  // const [counter, setCounter] = useState<number>(1);
   const [product, setProduct] = useState<IProduct>();
   const slug = params.slug;
 
-  const quantityCounter = (e: React.MouseEvent<HTMLButtonElement>) => {
+  // const quantityCounter = (e: React.MouseEvent<HTMLButtonElement>) => {
 
-    const { id } = e.currentTarget;
+  //   const { id } = e.currentTarget;
 
-    if (id === "inc") {
-      setCounter(counter + 1);
-    } else if (id === "dec" && counter > 1) {
-      setCounter(counter - 1);
-    } else {
-      setCounter(1);
-    }
-  }
+  //   if (id === "inc") {
+  //     setCounter(counter + 1);
+  //   } else if (id === "dec" && counter > 1) {
+
+  //     setCounter(counter - 1);
+  //   } else {
+  //     setCounter(1);
+  //   }
+  // }
 
   useEffect(() => {
     async function getProduct() {
       const data: IProduct[] = await client.fetch(getSingleProductQuery);
       const productObj = data.find((x) => x.slug === slug)
-      
+
       setProduct(productObj);
     }
     getProduct();
@@ -73,16 +88,18 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
           <div className="my-5 flex gap-5 text-2xl">
             <div className="text-lg font-semibold">Quantity:</div>
             <div className="items-center flex">
-              <button className="bg-gray-400/[0.5]  rounded-tr-none rounded-br-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="dec" onClick={quantityCounter}>
+              <button className="bg-gray-400/[0.5]  rounded-tr-none rounded-br-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="dec" onClick={decrement}>
                 <HiOutlineMinusCircle />
               </button>
-              <input
-                type="number" value={counter}
+              {/* <input
+                type="number" value={counterValue}
                 id="productquantity"
-                onChange={() => { quantityCounter }}
+                onChange={()=>{}}
+                readOnly
                 className="h-6 w-1/4 outline outline-offset-2 outline-gray-300  text-center text-lg"
-              />
-              <button className="bg-gray-400/[0.5] rounded-tl-none rounded-bl-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="inc" onClick={quantityCounter}>
+              /> */}
+              <h1 className="h-6 w-1/2 px-5 font-bold outline outline-offset-2 outline-gray-300  text-center text-lg">{counterValue}</h1>
+              <button className="bg-gray-400/[0.5] rounded-tl-none rounded-bl-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="inc" onClick={increment}>
                 <AiOutlinePlusCircle />
               </button>
             </div>

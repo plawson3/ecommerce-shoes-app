@@ -11,7 +11,7 @@ const CalculateDiscountedPrice = (price: number, discount: number) => {
 
 const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
   const { productname, productimage, price, discount, slug } = product;
-  const discountedPrice = CalculateDiscountedPrice(price, discount);
+  const discountedPrice = CalculateDiscountedPrice(price, discount).toFixed(2);
 
   return (
     <Link href={`/product/${slug}`} className="transform p-5  bg-white duration-200 hover:scale-105 cursor-pointer">
@@ -19,7 +19,7 @@ const ProductCard: React.FC<{ product: IProduct }> = ({ product }) => {
       <div className="p-4 text-black/[0.9]">
         <h2 className="text-lg font-medium">{productname}</h2>
         <div className="flex items-center text-black/[0.5]">
-          <p className="mr-2 text-lg font-semibold">${discountedPrice}.00</p>
+          <p className="mr-2 text-lg font-semibold">${discountedPrice}</p>
           <p className="text-base font-medium line-through">${price}.00</p>
           <p className="ml-auto text-base font-medium text-green-500">{discount}% off</p>
         </div>
