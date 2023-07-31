@@ -2,8 +2,10 @@ import React from "react";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import product1 from "@/../public/product-1.webp";
 import Image from "next/image";
+import { CartPayload } from "@/store/slice/cartSlice";
 
-export default function CartItem() {
+export default function CartItem({ item }: { item: CartPayload }) {
+  const { name, price, quantity } = item;
   return (
     <div className="flex py-5 gap-3 md:gap-5 border-b ">
       {/* Image Start */}
@@ -16,7 +18,7 @@ export default function CartItem() {
         <div className="flex flex-col md:flex-row justify-between ">
           {/* product title */}
           <div className="text-lg md:text-2xl font-semibold text-black  ">
-            Jordan Retro 6 G
+            {name}
           </div>
 
           {/* product subtitle */}
@@ -26,7 +28,7 @@ export default function CartItem() {
 
           {/* product price */}
           <div className="text-sm md:text-md font-bold text-black mt-2  ">
-            MRP : Rs 1500.00
+            MRP : $ {price.toFixed(2)}
           </div>
         </div>
 

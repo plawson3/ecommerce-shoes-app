@@ -11,11 +11,15 @@ import { BiMenuAltRight } from "react-icons/bi";
 import { VscChromeClose } from "react-icons/vsc";
 import MenuMobile from "./MenuMobile";
 
+import { useAppSelector } from "@/store/hooks/counterHooks";
+
 export default function Header() {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [showCatMenu, setShowCatMenu] = useState(false);
   const [show, setShow] = useState("translate-y-0");
   const [lastScrolly, setLastScrolly] = useState(0);
+
+  const cartCounter = useAppSelector((state)=>state.cartSlice.totalQuantity)
 
   const controlNavbar = useCallback(() => {
     if (window.scrollY > 200) {
@@ -71,7 +75,7 @@ export default function Header() {
             <div className="w-8 md:w-12 h-8 md:h-12 rounded-full flex justify-center items-center hover:bg-black/[0.05] cursor-pointer relative">
               <BsCart className="text-[15px] md:text-[20px]" />
               <div className="flex h-[14px] md:h-[18px] min-w-[14px] md:min-w-[18px] rounded-full bg-red-600 absolute top-1 left-5 md:left-7 text-white text-[10px] md:text-[12px] justify-center items-center px-[2px] md:px-[5px] ">
-                5
+                {cartCounter}
               </div>
             </div>
           </Link>

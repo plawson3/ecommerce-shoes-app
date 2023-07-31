@@ -12,6 +12,7 @@ import { getSingleProductQuery } from "../../../../sanity/lib/query";
 
 import { useAppSelector, useAppDispatch } from "@/store/hooks/counterHooks";
 import { counterActions } from "@/store/slice/counterSlice";
+import { cartActions } from "@/store/slice/cartSlice";
 import { toast } from "react-hot-toast";
 
 const ProductDetail = ({ params }: { params: { slug: string } }) => {
@@ -26,23 +27,14 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
     counterValue > 1 ? dispatch(counterActions.decrement()) : toast.error("Quantity can't be negative")
   };
 
-  // const [counter, setCounter] = useState<number>(1);
+  const addToCart = () => {
+    product && dispatch(cartActions.AddToCart({ id: product._id, name: product.productname, price: product.price, quantity: counterValue }))
+    toast.success("Product Added to Cart, Successfully!!")
+  }
+
   const [product, setProduct] = useState<IProduct>();
   const slug = params.slug;
 
-  // const quantityCounter = (e: React.MouseEvent<HTMLButtonElement>) => {
-
-  //   const { id } = e.currentTarget;
-
-  //   if (id === "inc") {
-  //     setCounter(counter + 1);
-  //   } else if (id === "dec" && counter > 1) {
-
-  //     setCounter(counter - 1);
-  //   } else {
-  //     setCounter(1);
-  //   }
-  // }
 
   useEffect(() => {
     async function getProduct() {
@@ -139,7 +131,7 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
           {/* project size range end */}
 
           {/* add to cart button start */}
-          <button className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 ">
+          <button className="w-full py-4 rounded-full bg-black text-white text-lg font-medium transition-transform active:scale-95 mb-3 hover:opacity-75 " onClick={addToCart} >
             Add to Cart
           </button>
           {/* add to cart button end */}

@@ -56,12 +56,6 @@ export default function MenuMobile({
     { id: 4, name: "Contact", url: "/contact" },
   ];
 
-  const subMenuData = [
-    { id: 1, name: "Jordan", doc_count: 11 },
-    { id: 2, name: "Sneakers", doc_count: 8 },
-    { id: 3, name: "Runningshoes", doc_count: 64 },
-    { id: 4, name: "Footballshoes", doc_count: 107 },
-  ];
   return (
     <ul className="flex flex-col md:hidden font-bold absolute top-[50px] left-0  w-full h-[calc(100vh-50px)] bg-white border-t text-black ">
       {data.map((item) => {
