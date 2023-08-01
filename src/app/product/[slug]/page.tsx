@@ -28,8 +28,9 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
   };
 
   const addToCart = () => {
-    product && dispatch(cartActions.AddToCart({ id: product._id, name: product.productname, price: product.price, quantity: counterValue }))
+    product && dispatch(cartActions.AddToCart({ id: product._id, name: product.productname, price: product.price, quantity: counterValue, category: product.category.categoryname, productImage: product.productimage }))
     toast.success("Product Added to Cart, Successfully!!")
+    dispatch(counterActions.reset());
   }
 
   const [product, setProduct] = useState<IProduct>();
@@ -83,20 +84,12 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
               <button className="bg-gray-400/[0.5]  rounded-tr-none rounded-br-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="dec" onClick={decrement}>
                 <HiOutlineMinusCircle />
               </button>
-              {/* <input
-                type="number" value={counterValue}
-                id="productquantity"
-                onChange={()=>{}}
-                readOnly
-                className="h-6 w-1/4 outline outline-offset-2 outline-gray-300  text-center text-lg"
-              /> */}
               <h1 className="h-6 w-1/2 px-5 font-bold outline outline-offset-2 outline-gray-300  text-center text-lg">{counterValue}</h1>
               <button className="bg-gray-400/[0.5] rounded-tl-none rounded-bl-none p-1 rounded-lg hover:scale-105 ease-in-out hover:bg-gray-400 hover:text-gray-200 " id="inc" onClick={increment}>
                 <AiOutlinePlusCircle />
               </button>
             </div>
           </div>
-
           {/* quantity button end */}
 
           {/* project size range start */}
