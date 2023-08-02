@@ -8,6 +8,7 @@ export interface CartPayload {
   price: number;
   category: string;
   productImage: Image;
+  discountedPrice:number;
 }
 
 // Define a type for the slice state
@@ -34,11 +35,11 @@ export const cartSlice = createSlice({
       if (Boolean(isProductExists)) {
         isProductExists.quantity += action.payload.quantity;
         state.totalQuantity += action.payload.quantity;
-        state.totalAmount += action.payload.quantity * action.payload.price;
+        state.totalAmount += action.payload.quantity * action.payload.discountedPrice;
       } else {
         state.items.push(action.payload);
         state.totalQuantity += action.payload.quantity
-        state.totalAmount += action.payload.quantity * action.payload.price;
+        state.totalAmount += action.payload.quantity * action.payload.discountedPrice;
       }
     },
     RemoveFromCart: (state, action: PayloadAction<CartPayload>) => {
@@ -46,7 +47,7 @@ export const cartSlice = createSlice({
       if (Boolean(isProductExists) && isProductExists.quantity > 0) {
         isProductExists.quantity -= 1
         state.totalQuantity -= 1;
-        state.totalAmount -= isProductExists.price;
+        state.totalAmount -= isProductExists.discountedPrice;
       }
     },
     DeleteProductFromCart: (state, action: PayloadAction<{ id: string }>) => {
@@ -54,7 +55,7 @@ export const cartSlice = createSlice({
       if (productToBeRemoved !== undefined) {
         const filteredProducts = state.items.filter(item => (item.id !== action.payload.id));
         state.items = filteredProducts;
-        state.totalAmount -= productToBeRemoved?.quantity * productToBeRemoved?.price;
+        state.totalAmount -= productToBeRemoved?.quantity * productToBeRemoved?.discountedPrice;
         state.totalQuantity -= productToBeRemoved?.quantity;
       }
     }

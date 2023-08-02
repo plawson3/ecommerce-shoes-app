@@ -13,7 +13,7 @@ import { toast } from "react-hot-toast";
 import { stat } from "fs";
 
 export default function CartItem({ item }: { item: CartPayload }) {
-  const { id, name, price, quantity, category, productImage } = item;
+  const { id, name, price, quantity, category, productImage, discountedPrice } = item;
 
   const counterValue = useAppSelector((state) => {
     let productQty = state.cartSlice.items.find(x => x.id === id);
@@ -25,10 +25,10 @@ export default function CartItem({ item }: { item: CartPayload }) {
   const dispatch = useAppDispatch();
 
   const increment = () => {
-    dispatch(cartActions.AddToCart({ id, name, price, category, productImage, quantity: 1 }))
+    dispatch(cartActions.AddToCart({ id, name, price, category, productImage, quantity: 1, discountedPrice }))
   };
   const decrement = () => {
-    counterValue > 1 ? dispatch(cartActions.RemoveFromCart({ id, name, price, category, productImage, quantity: 1 })) : toast.error("Quantity can't be negative")
+    counterValue > 1 ? dispatch(cartActions.RemoveFromCart({ id, name, price, category, productImage, quantity: 1, discountedPrice })) : toast.error("Quantity can't be negative")
   };
 
   const deleteFromCart = () => {
@@ -47,7 +47,7 @@ export default function CartItem({ item }: { item: CartPayload }) {
       <div className="w-full flex flex-col ">
         <div className="flex flex-col md:flex-row justify-between ">
           {/* product title */}
-          <div className="text-lg md:text-2xl font-semibold text-black  ">
+          <div className="text-lg md:text-2xl font-semibold text-black max-w-sm  ">
             {name}
           </div>
 
@@ -57,8 +57,13 @@ export default function CartItem({ item }: { item: CartPayload }) {
           </div>
 
           {/* product price */}
-          <div className="text-sm md:text-md font-bold text-black mt-2  ">
-            MRP : $ {price.toFixed(2)}
+          <div className="flex gap-5">
+            <div className="text-sm line-through opacity-50 md:text-md font-bold text-black mt-2  ">
+              $ {price.toFixed(2)}
+            </div>
+            <div className="text-sm md:text-md font-bold text-black mt-2  ">
+              $ {discountedPrice.toFixed(2)}
+            </div>
           </div>
         </div>
 
@@ -67,11 +72,12 @@ export default function CartItem({ item }: { item: CartPayload }) {
           {category}
         </div>
 
-        <div className="flex items-center justify-between mt-4">
-          <div className="flex items-center gap-2 md:gap-10 text-black/[1] text-start md:text-md ">
+        <div className="flex justify-between mt-4 items-center ">
+
+          <div className="flex flex-col items-start md:gap-10 text-black/[1] text-start md:text-md md:flex-row md:items-center ">
 
             {/* Size DropDown Start */}
-            <div className="flext items-center gap-1">
+            <div className="flex items-center">
               <div className="font-semibold">Size:</div>
               <select className="hover:text-black" name="" id="">
                 <option value="1">UK 6</option>
@@ -96,9 +102,12 @@ export default function CartItem({ item }: { item: CartPayload }) {
             </div>
             {/* quantity button end */}
 
-            {/* delete icon  */}
-            <RiDeleteBin6Fill className="cursor-pointer  text-black/[0.5] hover:text-black hover:scale-125 hover:ease-in-out hover:transition-transform  first-line: text-[16px] md:text-[20px]" onClick={deleteFromCart} />
           </div>
+
+          {/* delete icon  */}
+          <RiDeleteBin6Fill className="cursor-pointer items-end text-black/[0.5] hover:text-black hover:scale-125 hover:ease-in-out hover:transition-transform  first-line: text-[16px] md:text-[20px]" onClick={deleteFromCart} />
+          {/* delete icon  */}
+
         </div>
       </div>
     </div>

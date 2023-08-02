@@ -9,26 +9,27 @@ export const store = configureStore({
     },
 })
 
-// Infer the `RootState` and `AppDispatch` types from the store itself
+
 export type RootState = ReturnType<typeof store.getState>
-// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
 export type AppDispatch = typeof store.dispatch
 
 
 
-// import { configureStore, combineReducers } from '@reduxjs/toolkit';
-// import { persistStore, persistReducer } from 'redux-persist';
-// import storage from 'redux-persist/lib/storage'; // Use 'redux-persist/lib/session' for session storage
 
-// import counterSlice from './slice/counterSlice';
-// import cartSlice from './slice/cartSlice';
+// import { configureStore } from '@reduxjs/toolkit';
+// import { combineReducers } from 'redux';
+// import { persistReducer } from 'redux-persist';
+// import storage from 'redux-persist/lib/storage'; // Use 'redux-persist/lib/session' for session storage
+// import { counterSlice } from './slice/counterSlice';
+// import { cartSlice } from './slice/cartSlice';
 
 // // Root reducer combining all your slices
 // const rootReducer = combineReducers({
-//   counterSlice,
-//   cartSlice,
+//   counter:counterSlice.reducer,
+//   cart:cartSlice.reducer,
 // });
-
+  
+  
 // // Persist configuration
 // const persistConfig = {
 //   key: 'root', // key for the root state in local storage
@@ -41,8 +42,5 @@ export type AppDispatch = typeof store.dispatch
 //   reducer: persistedReducer,
 // });
 
-// export const persistor = persistStore(store);
-
-// // Infer the `RootState` and `AppDispatch` types from the store itself
 // export type RootState = ReturnType<typeof store.getState>;
 // export type AppDispatch = typeof store.dispatch;

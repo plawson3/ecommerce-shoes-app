@@ -3,7 +3,7 @@ import Wrapper from "../components/Wrapper";
 import CartItem from "../components/CartItem";
 import EmptyCart from "../components/EmptyCart";
 
-import { useAppDispatch, useAppSelector } from "@/store/hooks/counterHooks";
+import { useAppSelector } from "@/store/hooks/counterHooks";
 
 export default function Cart() {
   const { items, totalAmount } = useAppSelector((state) => state.cartSlice);
@@ -26,13 +26,11 @@ export default function Cart() {
               {items.map((item) => (
                 <CartItem key={item.id} item={item} />
               ))}
-              {/* <CartItem />
-                  <CartItem /> */}
             </div>
             {/* cart items end */}
 
             {/* cart summary start */}
-            <div className="flex-[1]">
+            <div className="flex-[1]  ">
               <div className="text-xl font-extrabold ">Summary</div>
               <div className="p-5 my-5 bg-black/[0.1] rounded-xl">
                 <div className="flex justify-between ">

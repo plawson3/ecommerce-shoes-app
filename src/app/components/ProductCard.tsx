@@ -4,7 +4,7 @@ import Image from "next/image";
 import { urlForImage } from "../../../sanity/lib/image";
 import { IProduct } from "../Interface/IProduct";
 
-const CalculateDiscountedPrice = (price: number, discount: number) => {
+export const  CalculateDiscountedPrice = (price: number, discount: number) => {
   const value = (price * discount) / 100;
   return price - value;
 };

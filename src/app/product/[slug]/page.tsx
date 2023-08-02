@@ -14,6 +14,7 @@ import { useAppSelector, useAppDispatch } from "@/store/hooks/counterHooks";
 import { counterActions } from "@/store/slice/counterSlice";
 import { cartActions } from "@/store/slice/cartSlice";
 import { toast } from "react-hot-toast";
+import { CalculateDiscountedPrice } from "@/app/components/ProductCard";
 
 const ProductDetail = ({ params }: { params: { slug: string } }) => {
 
@@ -28,13 +29,18 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
   };
 
   const addToCart = () => {
-    product && dispatch(cartActions.AddToCart({ id: product._id, name: product.productname, price: product.price, quantity: counterValue, category: product.category.categoryname, productImage: product.productimage }))
+    product && dispatch(cartActions.AddToCart(
+      {
+        id: product._id, name: product.productname, price: product.price, quantity: counterValue, category: product.category.categoryname, productImage: product.productimage, discountedPrice: discountedPrice
+      }))
     toast.success("Product Added to Cart, Successfully!!")
     dispatch(counterActions.reset());
   }
 
   const [product, setProduct] = useState<IProduct>();
   const slug = params.slug;
+
+  const discountedPrice = Number(CalculateDiscountedPrice(product?.price!, product?.discount!).toFixed(2));
 
 
   useEffect(() => {
@@ -67,7 +73,13 @@ const ProductDetail = ({ params }: { params: { slug: string } }) => {
             {product?.category.categoryname}
           </div>
           {/* Product Price  */}
-          <div className="text-lg mr-2 font-semibold">MRP : $ {product?.price}.00</div>
+          <div className="flex gap-5 items-center">
+            <div className="text-base mr-2 font-semibold ">MRP :
+              <span className="line-through opacity-50"> $ {product?.price.toFixed(2)} </span>
+            </div>
+            <div className="text-lg mr-2 font-semibold">$ {discountedPrice}</div>
+          </div>
+
           {/* Product Price  */}
 
           <div className="text-md font-medium text-black ">
